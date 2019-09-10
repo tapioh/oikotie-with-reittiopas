@@ -1,6 +1,11 @@
 import moment from 'moment';
 
-import { DIGITRANSIT_API_URL, RAUTATIENTORI_COORDS } from './constants';
+import {
+  DIGITRANSIT_API_URL,
+  JOURNEY_PLANNER_URL,
+  RAUTATIENTORI_COORDS
+} from './constants';
+
 import { sendMessageToBackground } from './chromeRunTime';
 
 export const getCoordinatesForAddress = async text => {
@@ -49,10 +54,10 @@ export const getDigitransitQueryString = (
     return null;
   }
 
-  const startOfWeek = moment()
-    .startOf('isoWeek')
-    .add(1, 'week');
-  const departureDate = startOfWeek.format('YYYY-MM-DD');
+  const thisFriday = moment()
+    .endOf('isoWeek')
+    .subtract(2, 'days');
+  const departureDate = thisFriday.format('YYYY-MM-DD');
   const departureTime = '07:30:00';
 
   return `{
@@ -78,13 +83,11 @@ export const getJourneyPlannerLink = (
   fromCoords,
   toCoords = RAUTATIENTORI_COORDS
 ) => {
-  const startOfWeek = moment()
-    .startOf('isoWeek')
-    .add(1, 'week');
-  const time = startOfWeek
-    .format('YYYY-MM-DD')
+  const fridayAt0730 = moment()
+    .endOf('isoWeek')
+    .subtract(2, 'days')
     .hours(7)
     .minutes(30)
     .unix();
-  return `${JOURNEY_PLANNER_URL}/reitti/${address}::${fromCoords.lat}%2C${fromCoords.lon}/Rautatientori::${toCoords.lat}%2C${toCoords.lon}?time=${time}`;
+  return `${JOURNEY_PLANNER_URL}/reitti/${address}::${fromCoords.lat}%2C${fromCoords.lon}/Rautatientori::${toCoords.lat}%2C${toCoords.lon}?time=${fridayAt0730}`;
 };

@@ -15,7 +15,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       body: JSON.stringify({ query: digitransitQuery })
     })
       .then(response => response.json())
-      .then(responseJSON => sendResponse(responseJSON));
+      .then(responseJSON => sendResponse(responseJSON))
+      .catch(error => console.error('Error:', error));
     return true;
   }
 });

@@ -33,29 +33,24 @@ export const searchAndSetTripDurations = async () => {
 
     const street = card.querySelector('.ot-card__street').textContent;
     const city = card.querySelector('.ot-card__text--concat').textContent;
-    const coordinates = await getCoordinatesForAddress(`${street} ${city}`);
+    const address = `${street} ${city}`;
+    const coordinates = await getCoordinatesForAddress(address);
 
-    try {
-      const tripDurations = await getTripDurations(coordinates);
-
-      if (!tripDurations) {
-        return false;
-      }
-
-      const journeyPlannerLink = getJourneyPlannerLink(address, coordinates);
-      const tripDurationFastest = Math.round(Math.min(...tripDurations) / 60);
-      const tripDurationSlowest = Math.round(Math.max(...tripDurations) / 60);
-      const tripDurationText =
-        tripDurationFastest === tripDurationSlowest
-          ? `${tripDurationFastest} min`
-          : `${tripDurationFastest}–${tripDurationSlowest} min`;
-
-      card.querySelector(
-        '.ot-card__duration'
-      ).innerHTML = `${tripDurationText} <a href="${journeyPlannerLink}" target="_blank">(reittiopas.fi)</a>`;
-    } catch (e) {
-      console.log('Failed to fetch trip durations for address');
-      console.log(e);
+    const tripDurations = await getTripDurations(coordinates);
+    if (!tripDurations || tripDurations.length === 0) {
+      return false;
     }
+
+    const journeyPlannerLink = getJourneyPlannerLink(address, coordinates);
+    const tripDurationFastest = Math.round(Math.min(...tripDurations) / 60);
+    const tripDurationSlowest = Math.round(Math.max(...tripDurations) / 60);
+    const tripDurationText =
+      tripDurationFastest === tripDurationSlowest
+        ? `${tripDurationFastest} min`
+        : `${tripDurationFastest}–${tripDurationSlowest} min`;
+
+    card.querySelector(
+      '.ot-card__duration'
+    ).innerHTML = `${tripDurationText} <a href="${journeyPlannerLink}" target="_blank">(reittiopas.fi)</a>`;
   });
 };
