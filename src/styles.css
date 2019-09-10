@@ -1,0 +1,10 @@
+.ot-card__duration {
+  color: gray;
+  margin-top: -7px;
+  min-height: 27px;
+  padding: 0 .9375rem .5rem;
+}
+
+.ot-card__duration a:hover {
+  text-decoration: underline;
+}

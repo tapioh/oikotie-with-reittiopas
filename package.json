@@ -1,0 +1,13 @@
+{
+  "name": "oikotie-boosted-with-reittiopas",
+  "private": true,
+  "devDependencies": {
+    "webpack": "^2.3.3"
+  },
+  "scripts": {
+    "build": "yarn webpack src/background.js build/background.js;yarn webpack src/contentScript.js build/contentScript.js;cp src/styles.css build/styles.css;cp manifest.json build/manifest.json"
+  },
+  "dependencies": {
+    "moment": "^2.24.0"
+  }
+}
