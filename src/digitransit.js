@@ -58,7 +58,7 @@ export const getDigitransitQueryString = (
     .endOf('isoWeek')
     .subtract(2, 'days');
   const departureDate = thisFriday.format('YYYY-MM-DD');
-  const departureTime = '07:30:00';
+  const departureTime = '07:30';
 
   return `{
         plan(
@@ -66,7 +66,16 @@ export const getDigitransitQueryString = (
           to: {lat: ${toCoords.lat}, lon: ${toCoords.lon}}
           date: "${departureDate}",
           time: "${departureTime}",
-          numItineraries: 10
+          numItineraries: 5
+          modes: "WALK,BUS,TRAM,RAIL,SUBWAY,FERRY"
+          arriveBy: false
+          walkSpeed: 1.2
+          maxWalkDistance: 2500
+          walkBoardCost: 600
+          walkReluctance: 2
+          transferPenalty: 0
+          minTransferTime: 120
+          preferred: {agencies: "HSL"}
         ) {
           itineraries {
             duration

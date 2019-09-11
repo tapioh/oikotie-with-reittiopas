@@ -1,3 +1,6 @@
 export const DIGITRANSIT_API_URL = 'https://api.digitransit.fi';
 export const JOURNEY_PLANNER_URL = 'https://reittiopas.hsl.fi';
-export const RAUTATIENTORI_COORDS = { lat: 60.172495, lon: 24.940998 };
+export const RAUTATIENTORI_COORDS = {
+  lat: 60.171277870462404,
+  lon: 24.941470026969913
+};
