@@ -1,10 +1,20 @@
 .ot-card__duration {
   color: gray;
-  margin-top: -7px;
+  margin-top: -8px;
   min-height: 27px;
   padding: 0 .9375rem .5rem;
 }
 
 .ot-card__duration a:hover {
   text-decoration: underline;
+}
+
+.ot-card--extra-visibility .ot-card__duration {
+  background-color: #00A8EB;
+  color: #f5f5f5;
+}
+
+.ot-card--extra-visibility .ot-card__duration a,
+.ot-card--extra-visibility .ot-card__duration a:hover {
+  color: white;
 }
