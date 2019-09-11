@@ -1,29 +1,21 @@
-import { searchAndSetTripDurations } from './oikotieModifier';
-
-let cardPoller = null;
-
-const pollForCards = () => {
-  cardPoller = window.setInterval(() => {
-    console.log('Finding cards...');
-    const cards = document.querySelectorAll('.cards__card card');
-    const cardsFound = cards.length !== 0;
-    if (cardsFound) {
-      console.log('Cards found – calling Digitransit!');
-      window.clearInterval(cardPoller);
-      searchAndSetTripDurations();
-    }
-  }, 1000);
-};
+import { addTripDurationToCard } from './cardModifier';
 
 document.addEventListener('DOMContentLoaded', function(event) {
-  pollForCards();
-});
+  const mutationObserver = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+      if (
+        mutation.addedNodes &&
+        mutation.addedNodes[0] &&
+        mutation.addedNodes[0].classList &&
+        mutation.addedNodes[0].classList[0] === 'cards__card'
+      ) {
+        addTripDurationToCard(mutation.addedNodes[0]);
+      }
+    });
+  });
 
-document.addEventListener(
-  'click',
-  function(event) {
-    if (!event.target.matches('.pagination__page')) return;
-    pollForCards();
-  },
-  false
-);
+  mutationObserver.observe(document.querySelector('body'), {
+    childList: true,
+    subtree: true
+  });
+});
