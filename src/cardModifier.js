@@ -11,6 +11,10 @@ export const addTripDurationToCard = async card => {
   durationDiv.className = 'ot-card__duration';
 
   const cardHeader = card.querySelector('.ot-card__header');
+  if (!cardHeader || !cardHeader.parentNode) {
+    return false;
+  }
+
   cardHeader.parentNode.insertBefore(durationDiv, cardHeader.nextSibling);
 
   const link = card.querySelector('a');
