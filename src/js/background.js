@@ -1,4 +1,4 @@
-import { DIGITRANSIT_API_URL } from './constants';
+import { DIGITRANSIT_API_URL, OIKOTIE_ASUNNOT_HOST } from './constants';
 import { getDigitransitQueryString } from './digitransit';
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -19,4 +19,19 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       .catch(error => console.error('Error:', error));
     return true;
   }
+});
+
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.declarativeContent.onPageChanged.removeRules(undefined, () => {
+    chrome.declarativeContent.onPageChanged.addRules([
+      {
+        conditions: [
+          new chrome.declarativeContent.PageStateMatcher({
+            pageUrl: { hostEquals: OIKOTIE_ASUNNOT_HOST }
+          })
+        ],
+        actions: [new chrome.declarativeContent.ShowPageAction()]
+      }
+    ]);
+  });
 });

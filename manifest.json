@@ -2,7 +2,10 @@
   "name": "Oikotie Asunnot boosted with Reittiopas",
   "version": "1.0",
   "description": "Show travel time from each appartment to Rautatientori.",
-  "permissions": ["activeTab", "*://*.digitransit.fi/*"],
+  "permissions": ["activeTab", "declarativeContent", "*://*.digitransit.fi/*"],
+  "page_action": {
+    "default_popup": "popup.html"
+  },
   "background": {
     "scripts": ["background.js"],
     "persistent": false
