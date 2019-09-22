@@ -2,12 +2,30 @@
   "name": "oikotie-boosted-with-reittiopas",
   "private": true,
   "devDependencies": {
+    "@babel/preset-env": "^7.6.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "webpack": "^2.3.3"
   },
   "scripts": {
-    "build": "yarn webpack src/js/background.js build/background.js && yarn webpack src/js/contentScript.js build/contentScript.js && cp src/styles.css build/styles.css && cp manifest.json build/manifest.json && cp src/html/popup.html build/popup.html"
+    "build": "yarn webpack src/js/background.js build/background.js && yarn webpack src/js/contentScript.js build/contentScript.js && cp src/styles.css build/styles.css && cp manifest.json build/manifest.json && cp src/html/popup.html build/popup.html",
+    "test": "jest"
   },
   "dependencies": {
+    "jest": "^24.9.0",
     "moment": "^2.24.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

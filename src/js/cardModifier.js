@@ -4,6 +4,8 @@ import {
   getTripDurations
 } from './digitransit';
 
+import { removeApartmentLettersFromStreetAddress } from './helpers/address';
+
 const CARDS_KEY = 'OIKOTIE_CARDS';
 
 const cards = JSON.parse(localStorage.getItem(CARDS_KEY)) || {};
@@ -30,15 +32,21 @@ export const addTripDurationToCard = async card => {
     .pop();
   const street = card.querySelector('.ot-card__street').textContent;
   const city = card.querySelector('.ot-card__text--concat').textContent;
-  const address = `${street} ${city}`;
+  const address = `${removeApartmentLettersFromStreetAddress(street)} ${city}`;
 
   const details = cards[id] || {};
   const coordinates = details.coordinates || (await getCoordinatesForAddress(address)); // prettier-ignore
   const tripDurations = details.tripDurations || (await getTripDurations(coordinates)); // prettier-ignore
-
   const journeyPlannerLink = getJourneyPlannerLink(address, coordinates);
-  const tripDurationFastest = Math.round(Math.min(...tripDurations) / 60);
-  const tripDurationSlowest = Math.round(Math.max(...tripDurations) / 60);
+
+  const tripDurationFastest =
+    tripDurations.length > 0
+      ? Math.round(Math.min(...tripDurations) / 60)
+      : '–';
+  const tripDurationSlowest =
+    tripDurations.length > 0
+      ? Math.round(Math.max(...tripDurations) / 60)
+      : '–';
   const tripDurationText =
     tripDurationFastest === tripDurationSlowest
       ? `${tripDurationFastest} min`
